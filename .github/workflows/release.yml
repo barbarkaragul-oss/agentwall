@@ -1,0 +1,32 @@
+name: Release Binaries
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - name: Build Release Binaries
+        run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/agentwall-linux-amd64 ./cmd/agentwall
+          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/agentwall-linux-arm64 ./cmd/agentwall
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o dist/agentwall-darwin-arm64 ./cmd/agentwall
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o dist/agentwall-windows-amd64.exe ./cmd/agentwall
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
