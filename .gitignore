@@ -1,4 +1,5 @@
 bin/
+dist/
 *.exe
 *.out
 .DS_Store
