@@ -1,0 +1,25 @@
+name: CI & Cross-Platform Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - name: Run Unit Tests
+        run: go test -v -race ./...
+      - name: Build Multi-OS Binaries
+        run: |
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/agentwall-linux-amd64 ./cmd/agentwall
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o bin/agentwall-darwin-arm64 ./cmd/agentwall
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o bin/agentwall-windows-amd64.exe ./cmd/agentwall
