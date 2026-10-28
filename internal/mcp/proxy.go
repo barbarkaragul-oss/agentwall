@@ -13,6 +13,7 @@ import (
 
 "github.com/barbarkaragul-oss/agentwall/internal/dlp"
 "github.com/barbarkaragul-oss/agentwall/internal/policy"
+"github.com/barbarkaragul-oss/agentwall/internal/procmon"
 )
 
 const (
@@ -72,6 +73,14 @@ return err
 p.logEvent("ACTIVE", colorGreen, fmt.Sprintf("Firewall attached to PID %d (%s %s)",
 cmd.Process.Pid, cmdName, strings.Join(cmdArgs, " ")))
 
+stopProcMon := make(chan struct{})
+go procmon.StartMonitor(cmd.Process.Pid, p.pol.BlockedPaths, stopProcMon, func(alert string) {
+p.logEvent("KERNEL/FD ALERT", colorRed, alert)
+if p.pol.BlockOnViolation {
+_ = cmd.Process.Kill()
+}
+})
+
 var wg sync.WaitGroup
 wg.Add(2)
 
@@ -87,6 +96,7 @@ p.streamFilter("AGENT->HOST", childStdout, os.Stdout, false)
 }()
 
 wg.Wait()
+close(stopProcMon)
 return cmd.Wait()
 }
 

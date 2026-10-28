@@ -10,9 +10,10 @@ import (
 "github.com/barbarkaragul-oss/agentwall/internal/dlp"
 "github.com/barbarkaragul-oss/agentwall/internal/mcp"
 "github.com/barbarkaragul-oss/agentwall/internal/policy"
+	"github.com/barbarkaragul-oss/agentwall/internal/tui"
 )
 
-const version = "1.0.0"
+const version = "1.1.0"
 
 func main() {
 if len(os.Args) < 2 {
@@ -27,7 +28,9 @@ case "wrap":
 handleWrap(os.Args[2:])
 case "scan":
 handleScan(os.Args[2:])
-case "demo":
+case "ui", "dashboard":
+		tui.RunDashboard()
+	case "demo":
 runLiveDemo()
 case "init-policy":
 handleInitPolicy()
@@ -46,7 +49,7 @@ fmt.Println("\033[36m\033[1m" + `
   / /| |/ __ '/ _ \/ __ \/ __/ | /| / / __ '/ / / 
  / ___ / /_/ /  __/ / / / /_ | |/ |/ / /_/ / / /  
 /_/  |_\__, /\___/_/ /_/\__/ |__/|__/\__,_/_/_/   
-      /____/  v` + version + ` — Runtime Firewall & DLP for AI Agents` + "\033[0m\n")
+      /____/  v` + version + ` â€” Runtime Firewall & DLP for AI Agents` + "\033[0m\n")
 }
 
 func printUsage() {
@@ -54,7 +57,8 @@ fmt.Println("Usage:")
 fmt.Println("  agentwall wrap [--policy file.json] -- <command> [args...]   Wrap any AI Agent or MCP server")
 fmt.Println("  agentwall scan <path>                                        Scan files/directories for secrets & injections")
 fmt.Println("  agentwall init-policy                                        Generate default agentwall.json policy")
-fmt.Println("  agentwall demo                                               Run live interactive attack interception demo")
+fmt.Println("  agentwall ui                                                 Launch real-time TUI security telemetry dashboard
+  agentwall demo                                               Run live interactive attack interception demo")
 }
 
 func handleWrap(args []string) {
@@ -96,7 +100,7 @@ if err := pol.SaveToFile("agentwall.json"); err != nil {
 fmt.Fprintf(os.Stderr, "Failed to write policy: %v\n", err)
 os.Exit(1)
 }
-fmt.Println("\033[32m✔ Created default security policy in ./agentwall.json\033[0m")
+fmt.Println("\033[32mâœ” Created default security policy in ./agentwall.json\033[0m")
 }
 
 func handleScan(args []string) {
@@ -133,16 +137,16 @@ return nil
 })
 
 if totalIssues == 0 {
-fmt.Println("\033[32m✔ Clean! No secrets or policy violations detected.\033[0m")
+fmt.Println("\033[32mâœ” Clean! No secrets or policy violations detected.\033[0m")
 } else {
-fmt.Printf("\n\033[31m✖ Scan complete: %d security issue(s) found.\033[0m\n", totalIssues)
+fmt.Printf("\n\033[31mâœ– Scan complete: %d security issue(s) found.\033[0m\n", totalIssues)
 }
 }
 
 func runLiveDemo() {
 printBanner()
 fmt.Println("\033[1mStarting Live AI Agent & MCP Interception Simulation...\033[0m")
-fmt.Println(strings.Repeat("─", 72))
+fmt.Println(strings.Repeat("â”€", 72))
 
 scanner := dlp.NewScanner()
 pol := policy.DefaultPolicy()
@@ -172,7 +176,7 @@ payload: `{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"bash",
 for _, sc := range scenarios {
 time.Sleep(200 * time.Millisecond)
 start := time.Now()
-fmt.Printf("\n\033[36m▶ %s\033[0m\n", sc.title)
+fmt.Printf("\n\033[36mâ–¶ %s\033[0m\n", sc.title)
 fmt.Printf("  \033[90mPayload:\033[0m %s\n", sc.payload)
 
 violations := pol.EvaluatePayload(sc.payload)
@@ -194,6 +198,6 @@ fmt.Printf("  \033[32mSafe Output:\033[0m %s\n", sanitized)
 }
 }
 
-fmt.Println("\n" + strings.Repeat("─", 72))
-fmt.Println("\033[32m\033[1m✔ All 4 attack vectors neutralized with zero external dependencies.\033[0m")
+fmt.Println("\n" + strings.Repeat("â”€", 72))
+fmt.Println("\033[32m\033[1mâœ” All 4 attack vectors neutralized with zero external dependencies.\033[0m")
 }
