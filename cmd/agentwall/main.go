@@ -30,6 +30,8 @@ case "scan":
 handleScan(os.Args[2:])
 case "ui", "dashboard":
 tui.RunDashboard()
+case "bench", "benchmark":
+runBenchmark()
 case "demo":
 runLiveDemo()
 case "init-policy":
@@ -56,9 +58,35 @@ func printUsage() {
 fmt.Println("Usage:")
 fmt.Println("  agentwall wrap [--policy file.json] -- <command> [args...]   Wrap any AI Agent or MCP server")
 fmt.Println("  agentwall ui                                                 Launch real-time TUI security telemetry dashboard")
+fmt.Println("  agentwall bench                                              Run microsecond latency & throughput benchmark")
 fmt.Println("  agentwall demo                                               Run live interactive attack interception demo")
 fmt.Println("  agentwall scan <path>                                        Scan files/directories for secrets & injections")
 fmt.Println("  agentwall init-policy                                        Generate default agentwall.json policy")
+}
+
+func runBenchmark() {
+printBanner()
+const iterations = 50000
+scanner := dlp.NewScanner()
+pol := policy.DefaultPolicy()
+sample := `{"jsonrpc":"2.0","id":42,"result":{"data":"AWS_KEY=AKIAIOSFODNN7EXAMPLE path=/home/user/.ssh/id_rsa"}}`
+
+fmt.Printf("\033[1mRunning %d full DLP + Policy inspections...\033[0m\n", iterations)
+start := time.Now()
+for i := 0; i < iterations; i++ {
+_ = pol.EvaluatePayload(sample)
+_, _ = scanner.InspectAndRedact(sample, true)
+}
+elapsed := time.Since(start)
+perOp := elapsed / iterations
+opsPerSec := float64(iterations) / elapsed.Seconds()
+
+fmt.Println(strings.Repeat("─", 64))
+fmt.Printf("✔ Total Packets Inspected : %d\n", iterations)
+fmt.Printf("✔ Total Elapsed Time      : %v\n", elapsed)
+fmt.Printf("✔ Average Filter Latency  : \033[32m\033[1m%v / packet\033[0m\n", perOp)
+fmt.Printf("✔ Firewall Throughput     : \033[36m\033[1m%.0f packets / sec\033[0m\n", opsPerSec)
+fmt.Println(strings.Repeat("─", 64))
 }
 
 func handleWrap(args []string) {

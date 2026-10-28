@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ AgentWall
+# ğŸ›¡ï¸ AgentWall
 
 **Zero-Dependency Runtime Firewall, Secret DLP & Process Sandbox for AI Agents and MCP Servers**
 
@@ -11,11 +11,14 @@
 
 *Stop autonomous AI agents (Claude Code, Cursor, OpenClaw, MCP Servers) from leaking your .env secrets, reading ~/.ssh/id_rsa, executing m -rf /, or falling for Indirect Prompt Injections.*
 
+<br/>
+<img src="assets/demo.svg" alt="AgentWall Live Demo" width="100%"/>
+
 </div>
 
 ---
 
-## 🚀 One-Line Quick Install
+## ğŸš€ One-Line Quick Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/barbarkaragul-oss/agentwall/main/install.sh | sh
@@ -30,43 +33,43 @@ go build -ldflags="-s -w" -o bin/agentwall ./cmd/agentwall
 
 ---
 
-## 🖥️ Real-Time Terminal UI Dashboard (gentwall ui)
+## ğŸ–¥ï¸ Real-Time Terminal UI Dashboard (gentwall ui)
 
 Launch the built-in interactive telemetry monitor to inspect JSON-RPC packets, microsecond filter latency, and blocked exfiltration attempts in real time:
 
 ```text
-╔════════════════════════════════════════════════════════════════════════════╗
-║ 🛡️  AGENTWALL v1.1.0 — REAL-TIME AI AGENT & MCP SECURITY DASHBOARD         ║
-╠════════════════════════════════════════════════════════════════════════════╣
-║ PACKETS INSPECTED: 6        │ THREATS BLOCKED: 3      │ SECRETS MASKED: 2  ║
-║ AVG FILTER LATENCY: 21 µs   │ SANDBOX STATUS:  ACTIVE │ PROCFS WATCHER: ON ║
-╠════════════════════════════════════════════════════════════════════════════╣
-║ TIME     │ ACTION   │ SEVERITY │ LATENCY │ EVENT DETAIL                    ║
-╟──────────┼──────────┼──────────┼─────────┼─────────────────────────────────╢
-║ 22:35:01 │ ALLOWED  │ CLEAN    │ 12 µs   │ Verified JSON-RPC packet        ║
-║ 22:35:01 │ REDACTED │ HIGH     │ 19 µs   │ AWS_ACCESS_KEY masked           ║
-║ 22:35:02 │ BLOCKED  │ CRITICAL │ 26 µs   │ SENSITIVE_PATH (.ssh/id_rsa)    ║
-║ 22:35:02 │ BLOCKED  │ HIGH     │ 33 µs   │ INDIRECT_PROMPT_INJECTION       ║
-║ 22:35:03 │ REDACTED │ HIGH     │ 40 µs   │ GITHUB_PAT masked               ║
-║ 22:35:03 │ BLOCKED  │ CRITICAL │ 18 µs   │ DESTRUCTIVE_CMD (rm -rf /)      ║
-╚════════════════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+â•‘ ğŸ›¡ï¸  AGENTWALL v1.1.0 â€” REAL-TIME AI AGENT & MCP SECURITY DASHBOARD         â•‘
+â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
+â•‘ PACKETS INSPECTED: 6        â”‚ THREATS BLOCKED: 3      â”‚ SECRETS MASKED: 2  â•‘
+â•‘ AVG FILTER LATENCY: 21 Âµs   â”‚ SANDBOX STATUS:  ACTIVE â”‚ PROCFS WATCHER: ON â•‘
+â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
+â•‘ TIME     â”‚ ACTION   â”‚ SEVERITY â”‚ LATENCY â”‚ EVENT DETAIL                    â•‘
+â•Ÿâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â•¢
+â•‘ 22:35:01 â”‚ ALLOWED  â”‚ CLEAN    â”‚ 12 Âµs   â”‚ Verified JSON-RPC packet        â•‘
+â•‘ 22:35:01 â”‚ REDACTED â”‚ HIGH     â”‚ 19 Âµs   â”‚ AWS_ACCESS_KEY masked           â•‘
+â•‘ 22:35:02 â”‚ BLOCKED  â”‚ CRITICAL â”‚ 26 Âµs   â”‚ SENSITIVE_PATH (.ssh/id_rsa)    â•‘
+â•‘ 22:35:02 â”‚ BLOCKED  â”‚ HIGH     â”‚ 33 Âµs   â”‚ INDIRECT_PROMPT_INJECTION       â•‘
+â•‘ 22:35:03 â”‚ REDACTED â”‚ HIGH     â”‚ 40 Âµs   â”‚ GITHUB_PAT masked               â•‘
+â•‘ 22:35:03 â”‚ BLOCKED  â”‚ CRITICAL â”‚ 18 Âµs   â”‚ DESTRUCTIVE_CMD (rm -rf /)      â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 ```
 
 ---
 
-## 🏗️ Architecture
+## ğŸ—ï¸ Architecture
 
 ```mermaid
 flowchart LR
-    Host["IDE / LLM Host\n(Claude Code, Cursor)"] <-->|JSON-RPC / Stdio| AW["🛡️ AgentWall Proxy\n• Real-time Secret DLP\n• Prompt Injection Filter\n• Policy Engine"]
+    Host["IDE / LLM Host\n(Claude Code, Cursor)"] <-->|JSON-RPC / Stdio| AW["ğŸ›¡ï¸ AgentWall Proxy\nâ€¢ Real-time Secret DLP\nâ€¢ Prompt Injection Filter\nâ€¢ Policy Engine"]
     AW <-->|Sanitized Stream| Agent["MCP Server / AI Agent\n(Untrusted Process)"]
-    ProcMon["🔍 OS ProcFS Monitor\n(/proc/pid/fd)"] -.->|Watches Open Files| Agent
+    ProcMon["ğŸ” OS ProcFS Monitor\n(/proc/pid/fd)"] -.->|Watches Open Files| Agent
     AW --- ProcMon
 ```
 
 ---
 
-## 🔌 Drop-In MCP Server Integration
+## ğŸ”Œ Drop-In MCP Server Integration
 
 Add gentwall wrap -- in front of any untrusted MCP server inside claude_desktop_config.json or .cursor/mcp.json:
 
@@ -81,5 +84,5 @@ Add gentwall wrap -- in front of any untrusted MCP server inside claude_desktop
 }
 ```
 
-## 📄 License
-MIT License — Copyright (c) 2026 Barbaros Karagulmez (arbarkaragul-oss)
+## ğŸ“„ License
+MIT License â€” Copyright (c) 2026 Barbaros Karagulmez (arbarkaragul-oss)

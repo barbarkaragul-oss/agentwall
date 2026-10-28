@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 360" width="100%" height="100%">
+  <style>
+    .bg { fill: #0d1117; stroke: #30363d; stroke-width: 2; rx: 10; }
+    .bar { fill: #161b22; }
+    .txt { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; fill: #c9d1d9; }
+    .hdr { fill: #58a6ff; font-weight: bold; }
+    .ok  { fill: #3fb950; font-weight: bold; }
+    .wrn { fill: #d29922; font-weight: bold; }
+    .err { fill: #f85149; font-weight: bold; }
+    .dim { fill: #8b949e; }
+    .l1 { opacity: 0; animation: fade 12s infinite 0.5s; }
+    .l2 { opacity: 0; animation: fade 12s infinite 1.8s; }
+    .l3 { opacity: 0; animation: fade 12s infinite 3.2s; }
+    .l4 { opacity: 0; animation: fade 12s infinite 4.6s; }
+    .l5 { opacity: 0; animation: fade 12s infinite 6.0s; }
+    @keyframes fade {
+      0% { opacity: 0; transform: translateY(4px); }
+      5%, 85% { opacity: 1; transform: translateY(0); }
+      95%, 100% { opacity: 0; }
+    }
+  </style>
+  <rect class="bg" x="2" y="2" width="856" height="356" rx="10"/>
+  <path class="bar" d="M 4 12 Q 4 4 12 4 L 848 4 Q 856 4 856 12 L 856 38 L 4 38 Z"/>
+  <circle cx="24" cy="21" r="6" fill="#ff5f56"/>
+  <circle cx="44" cy="21" r="6" fill="#ffbd2e"/>
+  <circle cx="64" cy="21" r="6" fill="#27c93f"/>
+  <text x="430" y="26" text-anchor="middle" class="txt dim">agentwall ui — Runtime AI Agent &amp; MCP Firewall (Zero-Dependency Go)</text>
+
+  <text x="24" y="70" class="txt hdr">🛡️ AGENTWALL v1.1.0 — REAL-TIME AI AGENT &amp; MCP SECURITY TELEMETRY</text>
+  <text x="24" y="95" class="txt">PACKETS INSPECTED: <tspan class="hdr">14,820</tspan>   │ THREATS BLOCKED: <tspan class="err">3</tspan>   │ SECRETS MASKED: <tspan class="wrn">2</tspan>   │ AVG LATENCY: <tspan class="ok">18 µs</tspan></text>
+  <line x1="24" y1="110" x2="836" y2="110" stroke="#30363d" stroke-width="1"/>
+  <text x="24" y="132" class="txt dim">TIME       ACTION      SEVERITY    LATENCY   INTERCEPTED PAYLOAD / RULE</text>
+
+  <g class="l1">
+    <text x="24" y="165" class="txt">22:40:01   <tspan class="ok">ALLOWED</tspan>     CLEAN       12 µs     Verified JSON-RPC resources/list (HOST-&gt;AGENT)</text>
+  </g>
+  <g class="l2">
+    <text x="24" y="195" class="txt">22:40:02   <tspan class="wrn">REDACTED</tspan>    HIGH        19 µs     AWS_ACCESS_KEY (AKIA...MPLE) -&gt; [REDACTED_BY_AGENTWALL]</text>
+  </g>
+  <g class="l3">
+    <text x="24" y="225" class="txt">22:40:03   <tspan class="err">BLOCKED</tspan>     CRITICAL    15 µs     SENSITIVE_PATH_ACCESS: file:///root/.ssh/id_rsa</text>
+  </g>
+  <g class="l4">
+    <text x="24" y="255" class="txt">22:40:04   <tspan class="err">BLOCKED</tspan>     HIGH        17 µs     INDIRECT_PROMPT_INJECTION: "Ignore previous instructions..."</text>
+  </g>
+  <g class="l5">
+    <text x="24" y="285" class="txt">22:40:05   <tspan class="err">BLOCKED</tspan>     CRITICAL    11 µs     DESTRUCTIVE_OR_EXFIL_COMMAND: "rm -rf / --no-preserve-root"</text>
+    <text x="24" y="325" class="txt ok">✔ Zero secrets leaked to LLM context window. Process sandbox active.</text>
+  </g>
+</svg>
