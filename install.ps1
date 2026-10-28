@@ -1,0 +1,1 @@
+$u="https://github.com/barbarkaragul-oss/agentwall/releases/latest/download/agentwall-windows-amd64.exe"; Invoke-WebRequest -Uri $u -OutFile "agentwall.exe"; Write-Host "AgentWall hazir: .\agentwall.exe ui" -ForegroundColor Green
