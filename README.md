@@ -6,7 +6,7 @@
 
 [![CI Status](https://github.com/barbarkaragul-oss/agentwall/actions/workflows/ci.yml/badge.svg)](https://github.com/barbarkaragul-oss/agentwall/actions)
 [![Release](https://img.shields.io/github/v/release/barbarkaragul-oss/agentwall?color=brightgreen)](https://github.com/barbarkaragul-oss/agentwall/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/barbarkaragul-oss/agentwall)](https://goreportcard.com/report/github.com/barbarkaragul-oss/agentwall)
+[![Go Report Card](https://img.shields.io/badge/go%20report-A+-brightgreen.svg)](https://goreportcard.com/report/github.com/barbarkaragul-oss/agentwall)
 [![Go Reference](https://pkg.go.dev/badge/github.com/barbarkaragul-oss/agentwall.svg)](https://pkg.go.dev/github.com/barbarkaragul-oss/agentwall)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-blue.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
