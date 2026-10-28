@@ -24,7 +24,9 @@ os.Exit(0)
 
 cmd := os.Args[1]
 switch cmd {
-case "wrap":
+case "serve", "mcp":
+		mcp.ServeStdio()
+	case "wrap":
 handleWrap(os.Args[2:])
 case "scan":
 handleScan(os.Args[2:])
