@@ -25,7 +25,10 @@ os.Exit(0)
 cmd := os.Args[1]
 switch cmd {
 case "serve", "mcp":
-		mcp.ServeStdio()
+		if err := mcp.ServeStdio(); err != nil {
+fmt.Fprintf(os.Stderr, "MCP server error: %v\n", err)
+os.Exit(1)
+}
 	case "wrap":
 handleWrap(os.Args[2:])
 case "scan":
@@ -58,6 +61,7 @@ fmt.Println("\033[36m\033[1m" + `
 
 func printUsage() {
 fmt.Println("Usage:")
+fmt.Println("  agentwall serve (alias: mcp)                                 Run the native MCP stdio inspection server")
 fmt.Println("  agentwall wrap [--policy file.json] -- <command> [args...]   Wrap any AI Agent or MCP server")
 fmt.Println("  agentwall ui                                                 Launch real-time TUI security telemetry dashboard")
 fmt.Println("  agentwall bench                                              Run microsecond latency & throughput benchmark")
