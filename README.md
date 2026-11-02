@@ -102,6 +102,61 @@ flowchart LR
 
 ---
 
+## Native MCP inspection server
+
+Run `agentwall serve` (or its alias `agentwall mcp`) to expose the
+`inspect_payload` tool over stdio. This mode runs locally without API keys,
+network access, or configuration files. Stdout contains only newline-delimited
+JSON-RPC; diagnostics go to stderr.
+
+~~~json
+{
+  "mcpServers": {
+    "agentwall": {
+      "command": "/absolute/path/to/agentwall",
+      "args": ["serve"]
+    }
+  }
+}
+~~~
+
+The tool takes `{"payload":"text to inspect"}` and returns a text content block
+containing JSON with `sanitized`, `secrets`, and `violations`. Matched secret
+patterns are redacted. Default-policy matches, including sensitive paths and
+prompt-injection phrases, are counted but remain in the returned text. Inspection
+is pattern-based and is not a guarantee that arbitrary text is safe. The tool
+never executes the payload, reads local files, or starts a child process.
+
+This stdio server negotiates the handshake-based MCP versions `2024-11-05`,
+`2025-03-26`, `2025-06-18`, and `2025-11-25`. Unsupported requested versions
+receive `2025-11-25` as a counter-offer. Send `notifications/initialized` after
+`initialize`, then use `tools/list` and `tools/call`. It does not implement
+Streamable HTTP or the `2026-07-28` stateless protocol.
+
+### Container and protocol checks
+
+~~~bash
+docker build -t agentwall-mcp .
+# Keep stdin open; do not allocate a TTY for MCP stdio.
+docker run --rm -i --network none agentwall-mcp
+
+# Reproducible lifecycle, discovery, invocation and error-handling checks:
+go test -race ./...
+go build -o bin/agentwall ./cmd/agentwall
+python3 scripts/check_mcp_stdio.py ./bin/agentwall serve
+python3 scripts/check_mcp_stdio.py ./bin/agentwall mcp
+python3 scripts/check_mcp_stdio.py docker run --rm -i --network none agentwall-mcp
+~~~
+
+The Dockerfile starts this native server with `agentwall serve`. To obtain a
+Glama evaluation, submit this repository in Glama, claim it with the maintainer
+listed in `glama.json`, and add the repository's Dockerfile directly to the Glama
+build configuration. Verify a successful build, tool discovery, and the resulting
+quality score on the actual listing. A badge URL or a successful local test does
+not establish that Glama has evaluated the server.
+
+---
+
 ## :electric_plug: Drop-In MCP Server Integration
 
 Add `agentwall wrap --` in front of any untrusted MCP server inside `claude_desktop_config.json` or `.cursor/mcp.json`:

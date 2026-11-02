@@ -18,6 +18,15 @@ jobs:
           go-version: '1.22'
       - name: Run Unit Tests
         run: go test -v -race ./...
+      - name: Check MCP stdio lifecycle and tools
+        run: |
+          go build -o bin/agentwall ./cmd/agentwall
+          python3 scripts/check_mcp_stdio.py ./bin/agentwall serve
+          python3 scripts/check_mcp_stdio.py ./bin/agentwall mcp
+      - name: Check container MCP entrypoint
+        run: |
+          docker build -t agentwall-mcp .
+          python3 scripts/check_mcp_stdio.py docker run --rm -i --network none agentwall-mcp
       - name: Build Multi-OS Binaries
         run: |
           GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/agentwall-linux-amd64 ./cmd/agentwall
